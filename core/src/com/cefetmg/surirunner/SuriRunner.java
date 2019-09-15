@@ -14,27 +14,28 @@ public class SuriRunner extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
         private Meerkat timon;
+        private Texture bkg;
+
         
         private Rectangle area;
         private ShapeRenderer shapeRenderer;
         private Array<Obstacles> obstacles;
-        private static final int MAX_OBS = 10;
-
-
+        private static final int MAX_OBS = 12;
 	
 	@Override
 	public void create () {
             batch = new SpriteBatch();
-            timon = new Meerkat();       
+            timon = new Meerkat();  
+            bkg = new Texture("background.png");
             Gdx.gl.glClearColor(1, 1, 1, 1);  
             shapeRenderer = new ShapeRenderer();
             
-            obstacles = new Array<Obstacles>();
+            obstacles = new Array<>();
             area = new Rectangle(0, 0,
-                Gdx.graphics.getWidth(), Gdx.graphics.getHeight()
-        );
+                Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            
             for (int i = 0; i < MAX_OBS; i++) {
-                obstacles.add(new Obstacles(ObstaclesEnum.ENEMIES, area));
+                obstacles.add(new Obstacles(area));
             }
 	}
 
@@ -43,16 +44,23 @@ public class SuriRunner extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		update(Gdx.graphics.getDeltaTime());
                 batch.begin();
+                batch.draw(bkg, 0, 0);
                 timon.render(batch);
- 		batch.end();
-                
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                timon.render(shapeRenderer);
                 for (Obstacles obs : obstacles) {
-                    obs.render(shapeRenderer);
+                    obs.render(batch);
                 }
-                shapeRenderer.end();
+                batch.end();
+                
+                if (Config.debug){
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    timon.render(shapeRenderer);
+                    for (Obstacles obs : obstacles) {
+                        obs.render(shapeRenderer);
+                    }
+                    shapeRenderer.end();
                 }
+                
+        }
 	
 	@Override
 	public void dispose () {
@@ -64,18 +72,15 @@ public class SuriRunner extends ApplicationAdapter {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
                 Gdx.app.exit();
             } 
+            if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+                Config.debug = !Config.debug;
+            }   
             timon.update();
-            
-                   // para todos os asteróides
             for (Obstacles obs : obstacles) {
                 obs.update(delta);
-
-                // se tiver saído da tela, recicla-o
                 if (obs.isOutOfBounds(area)) {
                     obs.recycle(area.height);
                 }
-
-                // verifica se colidiu com nave do jogador e o recicla
                 if (obs.collidesWith(timon)) {
                     obs.recycle(area.height);
                 }

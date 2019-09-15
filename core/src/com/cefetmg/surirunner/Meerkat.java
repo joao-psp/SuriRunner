@@ -27,9 +27,9 @@ public class Meerkat implements Collidable{
     private final Sprite sprite;
     TextureRegion[][] quadrosDaAnimacao;
     float tempoDaAnimacao;
-    private Animation<TextureRegion> move;
-    private final int HEIGHT = 36;
-    private final int WIDTH = 28;
+    private final Animation<TextureRegion> move;
+    private final int HEIGHT = 40;
+    private final int WIDTH = 32;
   
     
     int direction = 1;
@@ -40,7 +40,7 @@ public class Meerkat implements Collidable{
         this.sprite.setPosition(30, 10);
         this.quadrosDaAnimacao = TextureRegion.split(runningTexture, 39, 48); //39x48 e 39x80
         
-        move = new Animation<TextureRegion>(0.075f, new TextureRegion[]{
+        move = new Animation<>(0.075f, new TextureRegion[]{
         		quadrosDaAnimacao[0][0],
         		quadrosDaAnimacao[0][1],
         		quadrosDaAnimacao[0][2],
@@ -74,7 +74,7 @@ public class Meerkat implements Collidable{
             }
         }  
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            if (sprite.getX() < 100) {
+            if (sprite.getX() < Gdx.graphics.getWidth()/4) {
                 sprite.setPosition(sprite.getX() + 2, sprite.getY());
             }
         }
@@ -92,7 +92,6 @@ public class Meerkat implements Collidable{
         
         switch (direction) {
             case 1:
-                // Cima
                 batch.draw((TextureRegion)move.getKeyFrame(tempoDaAnimacao), sprite.getX(), sprite.getY(), WIDTH, HEIGHT);
                 break;
             case 2:

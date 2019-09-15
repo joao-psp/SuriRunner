@@ -5,13 +5,14 @@
  */
 package com.cefetmg.surirunner;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -35,33 +36,34 @@ public class Obstacles implements Collidable {
     private float speed;
     private final Rectangle bounds;
     
-    private int HEIGTH = 20;
-    private int WIDTH = 20;
+    private final int HEIGTH = 30;
+    private final int WIDTH = 30;
 
-
-
-
-
-    public Obstacles(ObstaclesEnum obType, Rectangle area) {
-        this.obType = obType;
+    public Obstacles(Rectangle area) {
         this.area = area;
         position = new Vector2();
         bounds = new Rectangle(
                 position.x - WIDTH / 2f, position.y - HEIGTH / 2f,
                 WIDTH, HEIGTH);
+
         recycle(2);
     }
     
     public void update(float dt) {
         position.x -= speed * dt;
         bounds.x = position.x - WIDTH/2f;
+        tempoDaAnimacao += Gdx.graphics.getDeltaTime();
+        sprite.setPosition(position.x - 2, sprite.getY());
+
+    }
+    
+    public void render(Batch batch) {
+        batch.draw((TextureRegion)move.getKeyFrame(tempoDaAnimacao), bounds.x - WIDTH/3, bounds.y-WIDTH/3, WIDTH, HEIGTH);
     }
     
     public void render(ShapeRenderer renderer) {
         renderer.setColor(Color.SLATE);
         renderer.identity();
-        renderer.translate(position.x, position.y, 0);
-        renderer.rect(-WIDTH/2f, -HEIGTH/2f , WIDTH, HEIGTH);
         renderer.identity();
         renderer.setColor(Color.RED);
         renderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
@@ -70,10 +72,13 @@ public class Obstacles implements Collidable {
     }
     
     final void recycle(float minimumY) {
+        this.obType = ObstaclesEnum.getRandom();
+        setSprite(obType);
         position.set(
-                MathUtils.random(area.width*0.85f, area.width-70),
-                MathUtils.random(2, area.height-20));
-        bounds.set(position.x - WIDTH/2f, position.y - HEIGTH/2f, WIDTH, HEIGTH);
+                MathUtils.random(area.width, area.width+10),
+                MathUtils.random(0, area.height-HEIGTH));
+        sprite.setPosition(position.x, position.y);
+        bounds.set(position.x + WIDTH/2f, position.y + HEIGTH/2f, WIDTH/2, HEIGTH/2);
         speed = MathUtils.random(36f, 100f);
     }
 
@@ -95,4 +100,82 @@ public class Obstacles implements Collidable {
     public Rectangle getMinimumBoundingRectangle() {
         return bounds;
     }    
+
+    private void setSprite(ObstaclesEnum obType) {  
+        switch(obType) {
+            case ENEMIES:
+                loadEnemy();
+                break;
+            case NOT_ENEMIES:
+                loadNotEnemy();
+                break;
+            case INVENCIBLE_UPGRADE:
+                loadUpgrade();
+                break;    
+            case HEART:
+                loadHeart();
+                break;
+                
+        }
+    }
+    
+    private void loadUpgrade() {
+        this.obTexture = new Texture("cajado_rafiki3.png");
+        this.sprite = new Sprite(obTexture);
+        this.quadrosDaAnimacao = TextureRegion.split(obTexture, 60, 60);
+        move = new Animation<>(0.1f, new TextureRegion[]{
+        		quadrosDaAnimacao[0][0]
+        });
+        move.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+    }   
+    
+    private void loadHeart() {
+        this.obTexture = new Texture("heart_img.png");
+        this.sprite = new Sprite(obTexture);
+        this.quadrosDaAnimacao = TextureRegion.split(obTexture, 640, 640);
+        move = new Animation<>(0.1f, new TextureRegion[]{
+        		quadrosDaAnimacao[0][0]
+        });
+        
+        move.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+    }
+    
+    private void loadEnemy() {
+        this.obTexture = new Texture("eagle_spritesheet.png");
+        this.sprite = new Sprite(obTexture);
+        this.quadrosDaAnimacao = TextureRegion.split(obTexture, 34, 25);
+        
+        move = new Animation<>(0.1f, new TextureRegion[]{
+        		quadrosDaAnimacao[0][0],
+        		quadrosDaAnimacao[0][1],
+        		quadrosDaAnimacao[0][2],
+        });
+        
+        move.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+    }
+
+    private void loadNotEnemy() {
+        this.obTexture = new Texture("butterfly_spritesheets.png");
+        this.sprite = new Sprite(obTexture);
+        this.quadrosDaAnimacao = TextureRegion.split(obTexture, 70, 70); //39x48 e 39x80
+        
+        move = new Animation<>(0.075f, new TextureRegion[]{
+        		quadrosDaAnimacao[0][0],
+        		quadrosDaAnimacao[0][1],
+        		quadrosDaAnimacao[0][2],
+        		quadrosDaAnimacao[0][3],
+        		quadrosDaAnimacao[0][4],
+                        quadrosDaAnimacao[0][5],
+        		quadrosDaAnimacao[0][6],
+                        quadrosDaAnimacao[0][7],
+        		quadrosDaAnimacao[0][8],
+                        quadrosDaAnimacao[0][9],
+        		quadrosDaAnimacao[0][10],
+        		quadrosDaAnimacao[0][11],
+        		quadrosDaAnimacao[0][12],
+        		quadrosDaAnimacao[0][13],
+        });
+        
+        move.setPlayMode(Animation.PlayMode.LOOP);
+    }
 }

@@ -5,6 +5,8 @@
  */
 package com.cefetmg.surirunner;
 
+import com.badlogic.gdx.math.MathUtils;
+
 /**
  *
  * @author joaop
@@ -12,6 +14,26 @@ package com.cefetmg.surirunner;
 public enum ObstaclesEnum {
     ENEMIES, // se pegar perde ponto
     NOT_ENEMIES, // se pegar ganha pontos
-    MAGNETIC_UPDATE, // se pegar e apertar espaço ativa
-    INVENCIBLE_UPDATE;
+    INVENCIBLE_UPGRADE,
+    HEART;
+    
+    public static ObstaclesEnum getRandom() {
+        int random = MathUtils.random(0, 10);
+        switch(random) {
+            case 0:
+            case 1:
+            case 10:
+                return ENEMIES;
+            case 2:
+                return HEART;
+            case 3:
+            case 4:
+            case 5:
+                return NOT_ENEMIES;
+            case 9:
+                return INVENCIBLE_UPGRADE;
+            default:
+                return NOT_ENEMIES;
+        }
+    }
 }
