@@ -9,6 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
                 config.width = 1260;
                 config.height = 87;
+                config.resizable = false;
 		new LwjglApplication(new SuriRunner(), config);
 	}
 }
