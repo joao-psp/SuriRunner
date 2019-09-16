@@ -1,5 +1,8 @@
 package com.cefetmg.surirunner;
 
+import br.cefetmg.games.movement.Alvo;
+import br.cefetmg.games.movement.behavior.Chegar;
+import br.cefetmg.games.movement.behavior.Fugir;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 public class SuriRunner extends ApplicationAdapter {
@@ -21,6 +25,14 @@ public class SuriRunner extends ApplicationAdapter {
         private ShapeRenderer shapeRenderer;
         private Array<Obstacles> obstacles;
         private static final int MAX_OBS = 12;
+        
+        private Chegar chegar;
+        private Fugir fugir;
+        
+        private float lastDT = (float) 0.0;
+        private float nowDT = (float) 0.0;
+        boolean setMode = false;
+
 	
 	@Override
 	public void create () {
@@ -35,7 +47,7 @@ public class SuriRunner extends ApplicationAdapter {
                 Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             
             for (int i = 0; i < MAX_OBS; i++) {
-                obstacles.add(new Obstacles(area));
+                obstacles.add(new Obstacles(area, null));
             }
 	}
 
@@ -69,6 +81,7 @@ public class SuriRunner extends ApplicationAdapter {
 	}
         
         public void update(float delta) {
+            nowDT += Gdx.graphics.getRawDeltaTime();
             if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
                 Gdx.app.exit();
             } 
@@ -82,8 +95,49 @@ public class SuriRunner extends ApplicationAdapter {
                     obs.recycle(area.height);
                 }
                 if (obs.collidesWith(timon)) {
+                    switch(obs.getObType()) {
+                    case INVENCIBLE_UPGRADE:
+                        lastDT = nowDT;
+                        setMode = true;
+                }
                     obs.recycle(area.height);
                 }
             }
+            if((int)lastDT == (int)(nowDT - 6)){
+                setNormalMode();
+                setMode = false;
+            }
+            if(setMode){
+                setInvencibleMode();
+            }
         }
+        
+        private void setNormalMode() {
+        chegar = new Chegar(100);
+        chegar.alvo = new Alvo(new Vector3(timon.sprite.getX(),timon.sprite.getY(),0));
+        fugir = new Fugir(100);
+        fugir.alvo = chegar.alvo;
+        for (Obstacles obs : obstacles) {
+            obs.setComportament(null);
+        }
+    }
+
+    private void setInvencibleMode() {
+        chegar = new Chegar(300);
+        chegar.alvo = new Alvo(new Vector3(timon.sprite.getX(),timon.sprite.getY(), 0));
+        fugir = new Fugir(150);
+        fugir.alvo = chegar.alvo;
+        for (Obstacles obs : obstacles) {
+            switch(obs.getObType()) {
+                case ENEMIES:
+                    if (obs.pose.posicao.x < timon.sprite.getX() + 250){
+                        obs.setComportament(fugir);
+                    }
+                    break;
+                default:
+                     obs.setComportament(chegar);
+            }
+            
+        }
+    }
 }

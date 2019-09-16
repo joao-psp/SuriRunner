@@ -5,6 +5,9 @@
  */
 package com.cefetmg.surirunner;
 
+import br.cefetmg.games.movement.AlgoritmoMovimentacao;
+import br.cefetmg.games.movement.Direcionamento;
+import br.cefetmg.games.movement.Pose;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,8 +17,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.cefetmg.surirunner.collision.Collidable;
 import com.cefetmg.surirunner.collision.Collision;
 
@@ -31,17 +36,22 @@ public class Obstacles implements Collidable {
     float tempoDaAnimacao;
     private Animation<TextureRegion> move;
 
-    private final Vector2 position;
+    private final Vector3 position;
     private final Rectangle area;
     private float speed;
     private final Rectangle bounds;
     
     private final int HEIGTH = 30;
     private final int WIDTH = 30;
+    
+    public Pose pose;
+    private AlgoritmoMovimentacao comportamento;
 
-    public Obstacles(Rectangle area) {
+    public Obstacles(Rectangle area, AlgoritmoMovimentacao comp) {
         this.area = area;
-        position = new Vector2();
+        this.comportamento = comp;
+        position = new Vector3();
+        this.pose = new Pose(position, 12f);
         bounds = new Rectangle(
                 position.x - WIDTH / 2f, position.y - HEIGTH / 2f,
                 WIDTH, HEIGTH);
@@ -53,8 +63,16 @@ public class Obstacles implements Collidable {
         position.x -= speed * dt;
         bounds.x = position.x - WIDTH/2f;
         tempoDaAnimacao += Gdx.graphics.getDeltaTime();
-        sprite.setPosition(position.x - 2, sprite.getY());
-
+        
+        if (comportamento != null) {
+            // pergunta ao algoritmo de movimento (comportamento) 
+            // para onde devemos ir
+            Direcionamento direcionamento = comportamento.guiar(this.pose);
+            // faz a simulação física usando novo estado da entidade cinemática
+            pose.atualiza(direcionamento, dt);
+            bounds.x = pose.posicao.x; 
+            bounds.y = pose.posicao.y; 
+        }
     }
     
     public void render(Batch batch) {
@@ -67,8 +85,6 @@ public class Obstacles implements Collidable {
         renderer.identity();
         renderer.setColor(Color.RED);
         renderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
-
-
     }
     
     final void recycle(float minimumY) {
@@ -76,10 +92,10 @@ public class Obstacles implements Collidable {
         setSprite(obType);
         position.set(
                 MathUtils.random(area.width, area.width+10),
-                MathUtils.random(0, area.height-HEIGTH));
+                MathUtils.random(0, area.height-HEIGTH), 0);
         sprite.setPosition(position.x, position.y);
         bounds.set(position.x + WIDTH/2f, position.y + HEIGTH/2f, WIDTH/2, HEIGTH/2);
-        speed = MathUtils.random(36f, 100f);
+        speed = MathUtils.random(50f, 100f);
     }
 
     @Override
@@ -177,5 +193,13 @@ public class Obstacles implements Collidable {
         });
         
         move.setPlayMode(Animation.PlayMode.LOOP);
+    }
+    
+    public ObstaclesEnum getObType() {
+        return this.obType;
+    }
+    
+    public void setComportament(AlgoritmoMovimentacao alg){
+        this.comportamento = alg;
     }
 }

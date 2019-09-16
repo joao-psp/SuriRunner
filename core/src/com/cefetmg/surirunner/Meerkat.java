@@ -24,7 +24,7 @@ import com.cefetmg.surirunner.collision.Collision;
  */
 public class Meerkat implements Collidable{
     private final Texture runningTexture;
-    private final Sprite sprite;
+    final Sprite sprite;
     TextureRegion[][] quadrosDaAnimacao;
     float tempoDaAnimacao;
     private final Animation<TextureRegion> move;
