@@ -1,8 +1,8 @@
 package com.cefetmg.surirunner;
 
-import br.cefetmg.games.movement.Alvo;
-import br.cefetmg.games.movement.behavior.Chegar;
-import br.cefetmg.games.movement.behavior.Fugir;
+import com.cefetmg.surirruner.movement.Alvo;
+import com.cefetmg.surirruner.movement.behavior.Chegar;
+import com.cefetmg.surirruner.movement.behavior.Fugir;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

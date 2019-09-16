@@ -1,4 +1,4 @@
-package br.cefetmg.games.movement;
+package com.cefetmg.surirruner.movement;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;

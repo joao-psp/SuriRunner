@@ -1,4 +1,4 @@
-package br.cefetmg.games.movement;
+package com.cefetmg.surirruner.movement;
 
 /**
  * Um algoritmo de movimentação. O principal método é o "guiar" que, dada uma

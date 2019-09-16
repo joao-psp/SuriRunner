@@ -5,9 +5,9 @@
  */
 package com.cefetmg.surirunner;
 
-import br.cefetmg.games.movement.AlgoritmoMovimentacao;
-import br.cefetmg.games.movement.Direcionamento;
-import br.cefetmg.games.movement.Pose;
+import com.cefetmg.surirruner.movement.AlgoritmoMovimentacao;
+import com.cefetmg.surirruner.movement.Direcionamento;
+import com.cefetmg.surirruner.movement.Pose;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;

@@ -1,8 +1,8 @@
-package br.cefetmg.games.movement.behavior;
+package com.cefetmg.surirruner.movement.behavior;
 
-import br.cefetmg.games.movement.AlgoritmoMovimentacao;
-import br.cefetmg.games.movement.Direcionamento;
-import br.cefetmg.games.movement.Pose;
+import com.cefetmg.surirruner.movement.AlgoritmoMovimentacao;
+import com.cefetmg.surirruner.movement.Direcionamento;
+import com.cefetmg.surirruner.movement.Pose;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector3;
 import static java.lang.Math.random;
