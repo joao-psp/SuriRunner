@@ -18,19 +18,16 @@ public enum ObstaclesEnum {
     HEART;
     
     public static ObstaclesEnum getRandom() {
-        int random = MathUtils.random(0, 10);
+        int random = MathUtils.random(0, 15);
         switch(random) {
             case 0:
             case 1:
-            case 10:
-                return ENEMIES;
-            case 2:
-                return HEART;
             case 3:
+            case 6:
+                return ENEMIES;
             case 4:
+                return HEART;
             case 5:
-                return NOT_ENEMIES;
-            case 9:
                 return INVENCIBLE_UPGRADE;
             default:
                 return NOT_ENEMIES;
