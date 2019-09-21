@@ -24,15 +24,15 @@ import com.cefetmg.surirunner.collision.Collision;
  */
 public class Meerkat implements Collidable{
     private final Texture runningTexture;
-    final Sprite sprite;
-    TextureRegion[][] quadrosDaAnimacao;
-    float tempoDaAnimacao;
+    private final Sprite sprite;
+    private  TextureRegion[][] quadrosDaAnimacao;
+    private float tempoDaAnimacao;
     private final Animation<TextureRegion> move;
     private final int HEIGHT = 40;
     private final int WIDTH = 32;
   
     
-    int direction = 1;
+    private int direction = 1;
     
     public Meerkat() {
         this.runningTexture = new Texture("timon_running_sprite3.png");
@@ -120,5 +120,9 @@ public class Meerkat implements Collidable{
         Rectangle rect = new Rectangle(sprite.getBoundingRectangle().x,
         sprite.getBoundingRectangle().y, WIDTH, HEIGHT);
         return rect;
+    }
+    
+    public Sprite getSprite() {
+        return this.sprite;
     }
 }

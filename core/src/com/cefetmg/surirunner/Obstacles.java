@@ -5,7 +5,7 @@
  */
 package com.cefetmg.surirunner;
 
-import com.cefetmg.surirruner.movement.AlgoritmoMovimentacao;
+import com.cefetmg.surirruner.movement.BehaviorAlgorithm;
 import com.cefetmg.surirruner.movement.Direcionamento;
 import com.cefetmg.surirruner.movement.Pose;
 import com.badlogic.gdx.Gdx;
@@ -17,9 +17,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.cefetmg.surirunner.collision.Collidable;
 import com.cefetmg.surirunner.collision.Collision;
@@ -45,9 +43,9 @@ public class Obstacles implements Collidable {
     private final int WIDTH = 30;
     
     public Pose pose;
-    private AlgoritmoMovimentacao comportamento;
+    private BehaviorAlgorithm comportamento;
 
-    public Obstacles(Rectangle area, AlgoritmoMovimentacao comp) {
+    public Obstacles(Rectangle area, BehaviorAlgorithm comp) {
         this.area = area;
         this.comportamento = comp;
         position = new Vector3();
@@ -65,13 +63,10 @@ public class Obstacles implements Collidable {
         tempoDaAnimacao += Gdx.graphics.getDeltaTime();
         
         if (comportamento != null) {
-            // pergunta ao algoritmo de movimento (comportamento) 
-            // para onde devemos ir
-            Direcionamento direcionamento = comportamento.guiar(this.pose);
-            // faz a simulação física usando novo estado da entidade cinemática
-            pose.atualiza(direcionamento, dt);
-            bounds.x = pose.posicao.x; 
-            bounds.y = pose.posicao.y; 
+            Direcionamento direcionamento = comportamento.guide(this.pose);
+            pose.update(direcionamento, dt);
+            bounds.x = pose.position.x; 
+            bounds.y = pose.position.y; 
         }
     }
     
@@ -199,7 +194,7 @@ public class Obstacles implements Collidable {
         return this.obType;
     }
     
-    public void setComportament(AlgoritmoMovimentacao alg){
+    public void setComportament(BehaviorAlgorithm alg){
         this.comportamento = alg;
     }
 }

@@ -4,15 +4,14 @@
   <auxiliary>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-      <group>
-        <file>file:/C:/Users/joaop/Documents/NetBeansProjects/SuriRunner/core/src/com/cefetmg/surirunner/Obstacles.java</file>
-        <file>file:/C:/Users/joaop/Documents/NetBeansProjects/SuriRunner/core/src/com/cefetmg/surirunner/SuriRunner.java</file>
-        <file>file:/C:/Users/joaop/Documents/NetBeansProjects/SuriRunner/core/src/com/cefetmg/surirunner/Meerkat.java</file>
-      </group>
+      <group/>
     </open-files>
     <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-      <group/>
+      <group>
+        <file>file:/C:/Users/joaop/Documents/NetBeansProjects/SuriRunner/core/src/com/cefetmg/surirunner/Obstacles.java</file>
+        <file>file:/C:/Users/joaop/Documents/NetBeansProjects/SuriRunner/core/src/com/cefetmg/surirunner/SuriRunner.java</file>
+      </group>
     </open-files>
   </auxiliary>
 </gradle-project-properties>

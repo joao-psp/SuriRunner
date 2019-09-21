@@ -2,25 +2,13 @@ package com.cefetmg.surirruner.movement;
 
 import com.badlogic.gdx.math.Vector3;
 
-/**
- * Representa um objetivo, que pode ser uma posição no mapa ou um agente (e.g.,
- * sendo perseguido).
- *
- * @author Flávio Coutinho <fegemo@cefetmg.br>
- */
-public class Alvo {
+public class Target {
 
-    /**
-     * Uma posição no mundo que é o objetivo dos agentes.
-     */
     private Vector3 objetivoEstatico;
 
-    /**
-     * Um agente que é o objetivo dos outros agentes.
-     */
-    private Agente agenteObjetivo;
+    private Agent agenteObjetivo;
 
-    public Alvo(Vector3 posicao) {
+    public Target(Vector3 posicao) {
         this.objetivoEstatico = posicao;
     }
 
@@ -29,7 +17,7 @@ public class Alvo {
         this.agenteObjetivo = null;
     }
 
-    public void setObjetivo(Agente agente) {
+    public void setObjetivo(Agent agente) {
         this.agenteObjetivo = agente;
         this.objetivoEstatico = null;
     }
@@ -40,6 +28,6 @@ public class Alvo {
 
     public Vector3 getObjetivo() {
         return isSeguindoObjetivo()
-                ? agenteObjetivo.pose.posicao : objetivoEstatico;
+                ? agenteObjetivo.pose.position : objetivoEstatico;
     }
 }
