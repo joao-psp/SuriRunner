@@ -17,6 +17,7 @@ Runner versão Brasileira Herbert Meerkat
 * Semi Geração Procedural (os obstáculos são gerados em posições aleatórias e com tipos aleatórios)
 * Exportar para WEB
 
+# Créditos
 
 * Todas as sprites foram retiradas de https://www.spriters-resource.com/
 
