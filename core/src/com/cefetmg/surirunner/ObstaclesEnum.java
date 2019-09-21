@@ -24,6 +24,7 @@ public enum ObstaclesEnum {
             case 1:
             case 3:
             case 6:
+            case 7:
                 return ENEMIES;
             case 4:
                 return HEART;

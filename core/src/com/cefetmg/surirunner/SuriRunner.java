@@ -217,12 +217,12 @@ public class SuriRunner extends ApplicationAdapter {
     }
 
     private void setRandomMusic() {
-        int aux = MathUtils.random(0,1);
+        int aux = MathUtils.random(0,2);
         
         if (music != null)
-        if (music.isPlaying()) {
-            music.stop();
-        }
+            if (music.isPlaying()) {
+                music.stop();
+            }
 
         switch (aux) {
             case 0:
@@ -231,21 +231,32 @@ public class SuriRunner extends ApplicationAdapter {
                 musicCount = 0;
                 break;
             case 1:
-                music = Gdx.audio.newMusic(Gdx.files.internal("lion_sleep.mp3"));
-                music.setVolume(0.35f);
+                music = Gdx.audio.newMusic(Gdx.files.internal("lion_sleeps_2.mp3"));
+                music.setVolume(0.8f);
                 musicCount = 1;
+                break;
+            case 2:
+                music = Gdx.audio.newMusic(Gdx.files.internal("just_cant_wait.mp3"));
+                music.setVolume(0.35f);
+                musicCount = 2;
                 break;
         }
        
         music.setOnCompletionListener(new Music.OnCompletionListener() {
             @Override
             public void onCompletion(Music music) {
-                if (musicCount == 0) {
-                    music = Gdx.audio.newMusic(Gdx.files.internal("lion_sleep.mp3"));
-                    musicCount = 1;
-                } else {
-                    music = Gdx.audio.newMusic(Gdx.files.internal("hakuna_matata.mp3"));
-                    musicCount = 0;
+                switch (musicCount) {
+                    case 0:
+                        music = Gdx.audio.newMusic(Gdx.files.internal("lion_sleep.mp3"));
+                        musicCount = 1;
+                        break;
+                    case 1:
+                    case 2:
+                        music = Gdx.audio.newMusic(Gdx.files.internal("hakuna_matata.mp3"));
+                        musicCount = 0;
+                        break;
+                    default:
+                        break;
                 }
                 music.play();
             }
