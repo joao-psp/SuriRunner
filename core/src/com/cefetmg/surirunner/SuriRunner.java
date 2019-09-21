@@ -210,7 +210,7 @@ public class SuriRunner extends ApplicationAdapter {
                 music.play();
             }
         }
-        if((nowDT - bckDT) > 5) {
+        if((nowDT - bckDT) > 10) {
             pausedState = true;
             music.pause();
         }
