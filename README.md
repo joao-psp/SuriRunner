@@ -6,10 +6,10 @@ Runner versão Brasileira Herbert Meerkat
 
 # Gameplay
 
-* Pegue as borboletas (uma das comidas preferidas dos suricatos) para ganhar pontos;
+* Pegue as borboletas (uma das comidas dos suricatos) para ganhar pontos;
 * Coração para ganhar uma vida extra;
-* Cajado do Rafiki para entrar no Modo Invencível e mandar para longe os Urubus malditos!
-* Ao ser atingido por um Urubu, você perderá uma vida.
+* Cajado do Rafiki para entrar no Modo Invencível e mandar para longe os Abutres malditos!
+* Ao ser atingido por um Abutre, você perderá uma vida.
 
 
 # Itens Opcionais Implementados
