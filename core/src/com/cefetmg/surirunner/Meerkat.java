@@ -74,7 +74,7 @@ public class Meerkat implements Collidable{
             }
         }  
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            if (sprite.getX() < Gdx.graphics.getWidth()/4) {
+            if (sprite.getX() < Gdx.graphics.getWidth()/2) {
                 sprite.setPosition(sprite.getX() + 2, sprite.getY());
             }
         }
